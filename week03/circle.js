@@ -37,5 +37,6 @@ var c2 = new Circle(1, 1, 3);
 var c3 = new Circle(5, 0, 0.5);
 
 console.log(c1.intersects(c3));
+console.log(c1.intersects(c2));
 console.log(c1.getArea());
 console.log(c1.getCircumference());
