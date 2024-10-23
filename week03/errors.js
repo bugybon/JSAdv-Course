@@ -29,46 +29,46 @@
 
 /** Example 2 */
 
-function Animal(name) {
-  return {
-    name: name,
-  };
-}
+// function Animal(name) {
+//   return {
+//     name: name,
+//   };
+// }
 
-const animal = new Animal("Fishy");
-animal.prototype.speak = function () {
-  console.log(this.name + " makes a bubbling noise.");
-};
+// var animal = new Animal("Fishy");
+// animal.speak = function () {
+//   console.log(this.name + " makes a bubbling noise.");
+// };
 
-const animal2 = new Animal("Birdy");
-animal2.prototype.speak = function () {
-  console.log(this.name + " makes an aeolian noise.");
-};
+// var animal2 = new Animal("Birdy");
+// animal2.speak = function () {
+//   console.log(this.name + " makes an aeolian noise.");
+// };
 
-animal.speak();
-animal2.speak();
+// animal.speak();
+// animal2.speak();
 
 /** Example 3 */
-// function Vehicle(make, model) {
-//   this.make = make;
-//   this.model = model;
-// }
+function Vehicle(make, model) {
+  this.make = make;
+  this.model = model;
+}
 
-// Vehicle.prototype.start = function () {
-//   console.log(this.make + " " + this.model + " is starting.");
-// };
+Vehicle.prototype.start = function () {
+  console.log(this.make + " " + this.model + " is starting.");
+};
 
-// function Car(make, model, doors) {
-//   Vehicle.call(this, make, model);
-//   this.doors = doors;
-// }
+function Car(make, model, doors) {
+  Vehicle.call(this, make, model);
+  this.doors = doors;
+}
 
-// Car.prototype = new Vehicle();
+Car.prototype = Object.create(Vehicle.prototype);
 
-// Car.prototype.honk = function () {
-//   console.log(this.make + " " + this.model + " honks!");
-// };
+Car.prototype.honk = function () {
+  console.log(this.make + " " + this.model + " honks!");
+};
 
-// var myCar = new Car("Toyota", "Corolla", 4);
-// myCar.start(); // Expected: "Toyota Corolla is starting."
-// myCar.honk(); // Expected: "Toyota Corolla honks!"
+var myCar = new Car("Toyota", "Corolla", 4);
+myCar.start(); // Expected: "Toyota Corolla is starting."
+myCar.honk(); // Expected: "Toyota Corolla honks!"
