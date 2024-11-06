@@ -25,30 +25,28 @@ const fetchTemplateHandler = (fileName, params, res) => {
   });
 };
 
-const extractUrlAndParams = (url) => {
+const extractUrlAndParams = (url,req) => {
   if (!url) {
     return { path: "", queryParams: {} };
   }
 
   const splitLogicRes = url.split("?");
   const path = splitLogicRes[0];
-  const queryParamsString = splitLogicRes[1] || "";
-  const queryParams = queryParamsString.split("&").reduce((acc, current) => {
-    const splitRes = current.split("=");
-    const key = splitRes[0];
-    const value = splitRes[1];
-    if (!key || !value) {
-      return acc;
-    }
-    acc[key] = value;
-    return acc;
-  }, {});
+  let body = "";
+  let queryParams = {};
+  req.on("data", (chunk) => {
+    body += chunk.toString();
+  });
+  req.on("end", () => {
+    queryParams = JSON.parse(body);
+    return { path, queryParams };
+  });
+  
 
-  return { path, queryParams };
 };
 
-const handleGetRequest = (req, res) => {
-  const { path, queryParams } = extractUrlAndParams(req.url);
+const handlePostRequest = (req, res) => {
+  const { path, queryParams } = extractUrlAndParams(req.url, req);
 
   const isFetchTemplateRequest = path.includes("/fetch-template/");
   if (isFetchTemplateRequest) {
@@ -71,7 +69,7 @@ const serverErrorHandler = (res) => {
 };
 
 const methodHandlers = {
-  GET: handleGetRequest,
+  POST: handlePostRequest,
 };
 
 const server = http.createServer((req, res) => {
