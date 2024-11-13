@@ -39,6 +39,7 @@ const extractUrlAndParams = (url,req) => {
   });
   req.on("end", () => {
     queryParams = JSON.parse(body);
+  }).then((path, queryParams) => {
     return { path, queryParams };
   });
   
