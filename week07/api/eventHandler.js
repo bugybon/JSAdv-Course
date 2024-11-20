@@ -8,10 +8,13 @@ eventHandlerRouter.post('/event', (req, res) =>{
     const newEvent = {name: name, capacity: capacity};
     dataBase.set(dataBase.size, newEvent);
     res.send(newEvent);
+    // const str = req.body;
+    // console.log(str);
 });
 
 eventHandlerRouter.get('/event/:id', (req,res) =>{
 
 });
+
 
 module.exports = eventHandlerRouter;
