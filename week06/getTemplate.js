@@ -10,21 +10,21 @@ const fetchTemplateHandler = (fileName, params, res) => {
   const readableStream = fs.createReadStream(
     filePath,
     {
-      highWaterMark: 5,
-      encoding: 'utf-8'
+      encoding: 'utf-8',
+      //highWaterMark: 5
     }
   );
-  
-  readableStream.on('error', (err) => {
-    debugger;
-  });
 
   const transform = new Transform({
     encoding: 'utf-8',
     transform: (chunk, _, done) => {
       const chunkString = chunk.toString();
-      console.log(chunkString)
-      done(null, chunkString);
+      const resultData = Object.keys(params).reduce((acc, paramKey) => {
+      //   return acc.replaceAll(`{{${paramKey}}}`, params[paramKey] || "");
+        const paramRegEx = new RegExp(`{{${paramKey}}}`, "g");
+        return acc.replace(paramRegEx, params[paramKey] || "");
+      }, chunkString);
+      done(null, resultData);
     }
   });
   
