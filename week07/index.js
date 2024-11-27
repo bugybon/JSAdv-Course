@@ -7,7 +7,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/api/v1', apiRouter);
+app.use('', apiRouter);
 
 app.get('/', (req, res) => {
   res.send('HELLO!');
