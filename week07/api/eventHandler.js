@@ -44,8 +44,8 @@ eventHandlerRouter.post('/:id/booking', (req, res) =>{
 eventHandlerRouter.get('/:id/booking', (req,res) =>{
     const currentBooking = bookingDataBase.get(+req.params.id);
     let result = "";
-    for(let i = 0; i < currentBooking.size; i++){
-        result.concat(currentBooking.get(i), '\n');
+    for(booking of currentBooking){
+        result = result.concat(booking[1].firstName,' ', booking[1].lastName, '\n');
     }
     res.send(result);
 });
