@@ -26,21 +26,23 @@ io.on('connection', (socket) => {
     
     socket.on('name-message', (msg) =>{
         users.set(socket.id, msg);
-        console.log(socket.id);
+        // console.log(socket.id);
         socket.emit('redirect', '/chat');
         queue.push(socket.id);
     });
 
     socket.on('joined-chat', () => {
         oldId = queue.shift();
-        console.log(oldId);
+        socket.join(users.get(oldId).chat);
+        // console.log({'id':oldId, 'nickname':users.get(oldId).name});
         users.set(socket.id, users.get(oldId));
         users.delete(oldId);
     });
 
     // Handle echo messages
     socket.on('echo-message', (msg) => {
-        socket.emit('echo-response', users[msg]+`${users[socket.id]}`);
+        socket.to(users.get(socket.id).chat).emit('echo-response', users.get(socket.id).name+`: ${msg}`);
+        socket.emit('echo-response', users.get(socket.id).name+`: ${msg}`);
     });
     
     // Cleanup on disconnect
