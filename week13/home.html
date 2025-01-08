@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile</title>
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+    <style>
+        .time { color: blue; }
+        .echo { color: green; }
+    </style>
+</head>
+<body>
+    <div>
+        <input type="text" id="nameInput">
+        <button onclick="sendMessage()" onsubmit="sendMessage()" >Send Echo Message</button>
+    </div>
+
+    <script>
+        const socket = io("localhost:8080");
+
+
+        // Handle echo responses
+        socket.on('redirect', (location) => {
+            window.location.href=location;
+        });
+
+        // Send echo message
+        function sendMessage() {
+            const input = document.getElementById('nameInput');
+            socket.emit('name-message', input.value);
+            input.value = '';
+        }
+    </script>
+</body>
+</html>
