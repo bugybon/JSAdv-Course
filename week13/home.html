@@ -11,9 +11,9 @@
 <body>
     <div>
         <input type="text" id="nameInput">
-        <button onclick="sendMessage()" onsubmit="sendMessage()" >Send Echo Message</button>
+        <button onclick="sendMessage('A')" onsubmit="sendMessage('A')" >Enter Chat A</button>
+        <button onclick="sendMessage('B')" onsubmit="sendMessage('B')" >Enter Chat B</button>
     </div>
-
     <script>
         const socket = io("localhost:8080");
 
@@ -24,9 +24,9 @@
         });
 
         // Send echo message
-        function sendMessage() {
+        function sendMessage(chatroom) {
             const input = document.getElementById('nameInput');
-            socket.emit('name-message', input.value);
+            socket.emit('name-message', {'name':input.value, 'chat':chatroom});
             input.value = '';
         }
     </script>

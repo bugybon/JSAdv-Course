@@ -23,7 +23,7 @@
     <script>
         const socket = io("localhost:8080");
         let prevID;
-        socket.emit('joined-chat',()=>{console.log("new chatter");});
+        socket.emit('joined-chat');
         // Handle server time updates
         socket.on('server-time', (time) => {
             document.getElementById('timeDisplay').innerHTML = 
